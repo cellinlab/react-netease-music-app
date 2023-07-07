@@ -1,0 +1,34 @@
+@import "@/styles/global.scss";
+
+.slider-container-wrapper {
+  margin: auto;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background: white;
+  .before {
+    position: absolute;
+    top: 0;
+    height: 60%;
+    width: 100%;
+    background: $theme-color;
+  }
+  .slider-container {
+    position: relative;
+    width: 98%;
+    height: 160px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 6px;
+    .slider-nav {
+      position: absolute;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-pagination-bullet-active {
+      background: $theme-color;
+    }
+  }
+}
