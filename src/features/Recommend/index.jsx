@@ -1,6 +1,7 @@
 import React from "react";
 
 import Slider from "@/commponents/Slider";
+import Scroll from "@/commponents/Scroll";
 import RecommendList from "./components/List";
 
 import "./index.scss";
@@ -20,9 +21,13 @@ const Recommend = () => {
   });
 
   return (
-    <div>
-      <Slider bannerList={bannerList} />
-      <RecommendList recommendList={recommendList} />
+    <div className="recommend-content">
+      <Scroll onScroll={(scroll) => console.log(scroll)}>
+        <div>
+          <Slider bannerList={bannerList} />
+          <RecommendList recommendList={recommendList} />
+        </div>
+      </Scroll>
     </div>
   );
 };
