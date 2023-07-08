@@ -15,6 +15,7 @@ specifiers:
   prop-types: ^15.8.1
   react: ^18.2.0
   react-dom: ^18.2.0
+  react-lazyload: ^3.2.0
   react-redux: ^8.1.1
   react-router-dom: ^6.14.1
   sass: ^1.63.6
@@ -28,6 +29,7 @@ dependencies:
   prop-types: 15.8.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
+  react-lazyload: 3.2.0_biqbaboplfbrettd7655fr4n2y
   react-redux: 8.1.1_hrrtw4it2dqo6rzcqzvl36ff7i
   react-router-dom: 6.14.1_biqbaboplfbrettd7655fr4n2y
   sass: 1.63.6
@@ -2599,6 +2601,16 @@ packages:
 
   /react-is/18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-lazyload/3.2.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-zJlrG8QyVZz4+xkYZH5v1w3YaP5wEFaYSUWC4CT9UXfK75IfRAIEdnyIUF+dXr3kX2MOtL1lUaZmaQZqrETwgw==}
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+      react-dom: ^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /react-redux/8.1.1_hrrtw4it2dqo6rzcqzvl36ff7i:

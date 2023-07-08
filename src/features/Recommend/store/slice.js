@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { fetchBannerList, fetchRecommendList } from "./actionCreator";
+import { fetchBannerList, fetchRecommendList, changeEnterLoading } from "./actionCreator";
 
 const initialState = {
   recommendList: [],
   bannerList: [],
+  enterLoading: true
 };
 
 const recommendSlice = createSlice({
@@ -19,6 +20,10 @@ const recommendSlice = createSlice({
       })
       .addCase(fetchRecommendList.fulfilled, (state, action) => {
         state.recommendList = action.payload;
+        state.enterLoading = false;
+      })
+      .addCase(changeEnterLoading, (state, action) => {
+        state.enterLoading = action.payload;
       });
   }
 });

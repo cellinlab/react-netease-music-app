@@ -18,3 +18,8 @@ export const fetchRecommendList = createAsyncThunk(
     return res.result;
   }
 );
+
+export const changeEnterLoading = (data) => ({
+  type: actionTypes.CHANGE_ENTER_LOADING,
+  payload: data
+});
