@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import reducer from './reducer'
+import recommendSlice from '@/features/Recommend/store/slice';
 
 const store = configureStore({
-  reducer,
+  reducer: {
+    recommend: recommendSlice,
+  },
 });
 
 export default store;
