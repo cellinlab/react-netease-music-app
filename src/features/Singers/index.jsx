@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LazyLoad, { forceCheck } from "react-lazyload";
 
