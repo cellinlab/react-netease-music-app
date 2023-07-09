@@ -1,0 +1,48 @@
+@import "@/styles/global.scss";
+
+.singers-page {
+  .singer-nav {
+    box-sizing: border-box;
+    position: fixed;
+    top: 95px;
+    width: 100%;
+    padding: 5px;
+    overflow: hidden;
+  }
+  .list-container {
+    position: fixed;
+    top: 160px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    .list {
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      .list-item {
+        margin: 0 5px;
+        padding: 5px 0;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-bottom: 1px solid $border-color;
+        .img-wrapper {
+          margin-right: 20px;
+          img {
+            border-radius: 2px;
+            width: 50px;
+            height: 50px;
+          }
+        }
+        .name {
+          font-size: $font-size-m;
+          font-weight: 500;
+          color: $font-color-desc;
+        }
+      }
+    }
+  }
+}

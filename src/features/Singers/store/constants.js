@@ -1,0 +1,17 @@
+export const CHANGE_SINGER_LIST = "singers/CHANGE_SINGER_LIST";
+
+export const CHANGE_PAGE_COUNT = "singers/PAGE_COUNT";
+
+export const CHANGE_ENTER_LOADING = "singers/CHANGE_ENTER_LOADING";
+
+export const CHANGE_PULLUP_LOADING = "singers/CHANGE_PULLUP_LOADING";
+
+export const CHANGE_PULLDOWN_LOADING = "singers/CHANGE_PULLDOWN_LOADING";
+
+export const GET_HOT_SINGER_LIST = "singers/GET_HOT_SINGER_LIST";
+
+export const REFRESH_MORE_HOT_SINGER_LIST = "singers/REFRESH_MORE_HOT_SINGER_LIST";
+
+export const GET_SINGER_LIST = "singers/GET_SINGER_LIST";
+
+export const REFRESH_MORE_SINGER_LIST = "singers/REFRESH_MORE_SINGER_LIST";
