@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import LazyLoad, { forceCheck } from "react-lazyload";
 
@@ -18,14 +18,15 @@ import {
   changePullUpLoading,
   changePullDownLoading,
 } from "./store/slice";
+import { CategoryDataContext, CHANGE_ALPHA, CHANGE_CATEGORY } from "./data";
 
 import defaultSingPic from "./singer.png";
 import "./index.scss";
 
 const Singers = () => {
-  const [category, setCategory] = useState("");
-  const [alpha, setAlpha] = useState("");
+  const { data: categoryData, dispatch: categoryDataDispatch } = useContext(CategoryDataContext);
 
+  const { category, alpha } = categoryData;
   const singerList = useSelector((state) => state.singers.singerList);
   const enterLoading = useSelector((state) => state.singers.enterLoading);
   const pullUpLoading = useSelector((state) => state.singers.pullUpLoading);
@@ -35,7 +36,9 @@ const Singers = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchHotSingerList());
+    if (!singerList.length) {
+      dispatch(fetchHotSingerList());
+    }
   }, [dispatch]);
 
   const updateDispatch = (category, alpha) => {
@@ -65,22 +68,20 @@ const Singers = () => {
   };
 
   const handleUpdateAlpha = (val) => {
-    setAlpha(val);
+    categoryDataDispatch({ type: CHANGE_ALPHA, payload: val });
     updateDispatch(category, alpha);
   };
 
   const handleUpdateCategory = (val) => {
-    setCategory(val);
+    categoryDataDispatch({ type: CHANGE_CATEGORY, payload: val });
     updateDispatch(category, alpha);
   };
 
   const handlePullUp = () => {
-    console.log("handlePullUp");
     pullUpRefreshDispatch(category, alpha, category === "", pageCount);
   };
 
   const handlePullDown = () => {
-    console.log("handlePullDown");
     pullDownRefreshDispatch(category, alpha);
   };
 
