@@ -1,5 +1,6 @@
 import { useEffect, useContext } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, Outlet } from "react-router-dom";
 import LazyLoad, { forceCheck } from "react-lazyload";
 
 import Horizen from "@/commponents/Horizen";
@@ -34,12 +35,17 @@ const Singers = () => {
   const pageCount = useSelector((state) => state.singers.pageCount);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!singerList.length) {
       dispatch(fetchHotSingerList());
     }
   }, [dispatch]);
+
+  const enterDetail = (id) => {
+    navigate(`/singers/${id}`);
+  };
 
   const updateDispatch = (category, alpha) => {
     dispatch(changePageCount(0));
@@ -112,7 +118,11 @@ const Singers = () => {
           <div className="list">
             {singerList.map((item, index) => {
               return (
-                <div className="list-item" key={item.accountId + "" + index}>
+                <div
+                  className="list-item"
+                  key={item.accountId + "" + index}
+                  onClick={() => enterDetail(item.id)}
+                >
                   <div className="img-wrapper">
                     <LazyLoad
                       placeholder={
@@ -135,6 +145,7 @@ const Singers = () => {
         </Scroll>
         <Loading show={enterLoading}></Loading>
       </div>
+      <Outlet />
     </div>
   );
 };

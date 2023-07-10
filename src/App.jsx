@@ -6,6 +6,7 @@ import Recommend from "@/features/Recommend";
 import Singers from "@/features/Singers";
 import Rank from "@/features/Rank";
 import Album from "@/features/Album";
+import Singer from "@/features/Singer";
 import { DataProvider } from "@/features/Singers/data";
 
 const App = () => {
@@ -17,7 +18,9 @@ const App = () => {
           <Route path="/recommend" element={<Recommend />}>
             <Route path="/recommend/:id" element={<Album />} />
           </Route>
-          <Route path="/singers" element={<Singers />} />
+          <Route path="/singers" element={<Singers />}>
+            <Route path="/singers/:id" element={<Singer />} />
+          </Route>
           <Route path="/rank" element={<Rank />}>
             <Route path="/rank/:id" element={<Album />} />
           </Route>
