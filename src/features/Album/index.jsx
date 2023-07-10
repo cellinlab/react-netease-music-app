@@ -56,9 +56,9 @@ const Album = () => {
     navigate(-1);
   };
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     setShowStatus(false);
-  };
+  }, []);
 
   return (
     <CSSTransition

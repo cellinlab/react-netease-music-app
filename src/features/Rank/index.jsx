@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 import Scroll from "@/commponents/Scroll";
 import Loading from "@/commponents/Loading";
@@ -28,6 +28,12 @@ const SongList = (props) => {
 const RankList = (props) => {
   const { list, global } = props;
 
+  const navigate = useNavigate();
+
+  const enterDetail = (detail) => {
+    navigate(`/rank/${detail.id}`);
+  };
+
   return (
     <ul className="rank-list" style={global ? { display: "flex" } : { display: "block" }}>
       {list.map((item, index) => {
@@ -36,6 +42,7 @@ const RankList = (props) => {
             className="list-item"
             key={item.coverImgId + "" + index}
             style={global ? { display: "block" } : { display: "flex" }}
+            onClick={() => enterDetail(item)}
           >
             <div
               className="img_wrapper"

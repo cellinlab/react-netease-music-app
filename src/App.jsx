@@ -18,7 +18,9 @@ const App = () => {
             <Route path="/recommend/:id" element={<Album />} />
           </Route>
           <Route path="/singers" element={<Singers />} />
-          <Route path="/rank" element={<Rank />} />
+          <Route path="/rank" element={<Rank />}>
+            <Route path="/rank/:id" element={<Album />} />
+          </Route>
         </Route>
       </Routes>
     </DataProvider>
