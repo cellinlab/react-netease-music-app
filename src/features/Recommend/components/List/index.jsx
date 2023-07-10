@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import LazyLoad from "react-lazyload";
 
 import { getCount } from "@/utils";
@@ -9,13 +10,19 @@ import "./index.scss";
 const RecommendList = (props) => {
   const { recommendList } = props;
 
+  const navigate = useNavigate();
+
+  const enterDetail = (id) => {
+    navigate(`/recommend/${id}`);
+  };
+
   return (
     <div className="list-wrapper">
       <div className="title">Recommend List</div>
       <div className="list">
         {recommendList.map((item, index) => {
           return (
-            <div className="list-item" key={item.id + index}>
+            <div className="list-item" key={item.id + index} onClick={() => enterDetail(item.id)}>
               <div className="img-wrapper">
                 <div className="decorate"></div>
                 <LazyLoad

@@ -167,3 +167,5 @@ export const alphaTypes = [{
   name: "Z"
 }
 ];
+
+export const HEADER_HEIGHT = 45;

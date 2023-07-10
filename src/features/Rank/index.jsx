@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Outlet } from "react-router-dom";
 
 import Scroll from "@/commponents/Scroll";
 import Loading from "@/commponents/Loading";
@@ -83,6 +84,7 @@ const Rank = () => {
           ) : null}
         </div>
       </Scroll>
+      <Outlet />
     </div>
   );
 };

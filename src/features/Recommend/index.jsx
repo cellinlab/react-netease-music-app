@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { forceCheck } from "react-lazyload";
 
@@ -32,6 +33,7 @@ const Recommend = () => {
         </div>
       </Scroll>
       {enterLoading ? <Loading /> : null}
+      <Outlet />
     </div>
   );
 };
