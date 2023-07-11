@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Toast from "@/commponents/Toast";
 import MiniPlayer from "./components/MiniPlayer";
 import NormalPlayer from "./components/NormalPlayer";
+import PlayList from "./components/PlayList";
 import { getSongUrl, isEmptyObject, shuffle } from "@/utils";
 import { playMode } from "@/config";
 
@@ -14,6 +15,7 @@ import {
   changeCurrentIndex,
   changePlayList,
   changePlayMode,
+  changeShowPlayList,
 } from "./store/slice";
 
 const Player = () => {
@@ -151,6 +153,10 @@ const Player = () => {
     alert("Play Error");
   };
 
+  const togglePlayList = (show) => {
+    dispatch(changeShowPlayList(show));
+  };
+
   return (
     <div>
       {isEmptyObject(currentSong) ? null : (
@@ -161,6 +167,7 @@ const Player = () => {
           percent={percent}
           toggleFullScreen={handleToggleFullScreen}
           clickPlaying={handleClickPlaying}
+          togglePlayList={togglePlayList}
         />
       )}
       {isEmptyObject(currentSong) ? null : (
@@ -178,6 +185,7 @@ const Player = () => {
           onPrev={handlePrev}
           onNext={handleNext}
           changeMode={handleChangeMode}
+          togglePlayList={togglePlayList}
         />
       )}
       <audio
@@ -186,6 +194,7 @@ const Player = () => {
         onEnded={handleEnd}
         onError={handleError}
       ></audio>
+      <PlayList />
       <Toast text={modeText} ref={toastRef} />
     </div>
   );

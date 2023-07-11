@@ -97,3 +97,9 @@ export function shuffle(arr) {
   }
   return new_arr;
 }
+
+export const findIndex = (song, list) => {
+  return list.findIndex(item => {
+    return song.id === item.id;
+  });
+};

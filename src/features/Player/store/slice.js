@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { playMode } from "@/config";
+import { findIndex } from "@/utils";
 
 const initialState = {
   fullScreen: false,
@@ -40,6 +41,25 @@ const playerSlice = createSlice({
     },
     changeCurrentSong(state, action) {
       state.currentSong = action.payload;
+    },
+    deleteSong(state, action) {
+      const playList = state.playList.slice();
+      const sequenceList = state.sequencePlayList.slice();
+      let currentIndex = state.currentIndex;
+
+      const fpIndex = findIndex(action.payload, playList);
+      playList.splice(fpIndex, 1);
+      if (fpIndex < currentIndex) currentIndex--;
+
+      const fsIndex = findIndex(action.payload, sequenceList);
+      sequenceList.splice(fsIndex, 1);
+
+      state.playList = playList;
+      state.sequencePlayList = sequenceList;
+      state.currentIndex = currentIndex;
+    },
+    clearState(state, action) {
+      state = initialState;
     }
   }
 });
@@ -52,7 +72,9 @@ export const {
   changePlayMode,
   changeCurrentIndex,
   changeShowPlayList,
-  changeCurrentSong
+  changeCurrentSong,
+  deleteSong,
+  clearState
 } = playerSlice.actions;
 
 export default playerSlice.reducer;

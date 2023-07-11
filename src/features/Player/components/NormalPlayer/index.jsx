@@ -10,7 +10,15 @@ import "./index.scss";
 
 const NormalPlayer = (props) => {
   const { song, fullScreen, playing, percent, duration, currentTime, mode } = props;
-  const { toggleFullScreen, clickPlaying, onProgressChange, onPrev, onNext, changeMode } = props;
+  const {
+    toggleFullScreen,
+    clickPlaying,
+    onProgressChange,
+    onPrev,
+    onNext,
+    changeMode,
+    togglePlayList,
+  } = props;
 
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
@@ -90,6 +98,11 @@ const NormalPlayer = (props) => {
     return content;
   };
 
+  const handleTogglePlayList = (e) => {
+    togglePlayList(true);
+    e.stopPropagation();
+  };
+
   return (
     <CSSTransition
       in={fullScreen}
@@ -156,7 +169,7 @@ const NormalPlayer = (props) => {
             <div className="icon i-right" onClick={onNext}>
               <i className="iconfont">&#xe718;</i>
             </div>
-            <div className="icon i-right">
+            <div className="icon i-right" onClick={handleTogglePlayList}>
               <i className="iconfont">&#xe640;</i>
             </div>
           </div>
