@@ -7,6 +7,8 @@ import Singers from "@/features/Singers";
 import Rank from "@/features/Rank";
 import Album from "@/features/Album";
 import Singer from "@/features/Singer";
+import Search from "@/features/Search";
+
 import { DataProvider } from "@/features/Singers/data";
 
 const App = () => {
@@ -24,6 +26,8 @@ const App = () => {
           <Route path="/rank" element={<Rank />}>
             <Route path="/rank/:id" element={<Album />} />
           </Route>
+          <Route path="/album/:id" element={<Album />} />
+          <Route path="/search" element={<Search />} />
         </Route>
       </Routes>
     </DataProvider>

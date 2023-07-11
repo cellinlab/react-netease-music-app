@@ -1,17 +1,25 @@
 import React from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
 
 import Player from "@/features/Player";
 
 import "./index.scss";
 
 const Home = () => {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="top">
         <span className="iconfont menu">&#xe65c;</span>
         <span className="title">Celf Music</span>
-        <span className="iconfont search">&#xe62b;</span>
+        <span
+          className="iconfont search"
+          onClick={() => {
+            navigate("/search");
+          }}
+        >
+          &#xe62b;
+        </span>
       </div>
       <div className="tab">
         <NavLink to="/recommend" className={({ isActive }) => (isActive ? "selected" : "")}>
