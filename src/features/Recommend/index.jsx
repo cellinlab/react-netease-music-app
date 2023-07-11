@@ -16,6 +16,7 @@ const Recommend = () => {
   const bannerList = useSelector((state) => state.recommend.bannerList);
   const recommendList = useSelector((state) => state.recommend.recommendList);
   const enterLoading = useSelector((state) => state.recommend.enterLoading);
+  const songsCount = useSelector((state) => state.player.playList.length);
 
   const dispatch = useDispatch();
 
@@ -25,7 +26,7 @@ const Recommend = () => {
   }, [dispatch]);
 
   return (
-    <div className="recommend-content">
+    <div className="recommend-content" style={{ bottom: songsCount > 0 ? "60px" : "0px" }}>
       <Scroll onScroll={forceCheck}>
         <div>
           <Slider bannerList={bannerList} />

@@ -27,7 +27,7 @@ const Album = () => {
 
   const currentAlbum = useSelector((state) => state.album.currentAlbum);
   const enterLoading = useSelector((state) => state.album.enterLoading);
-  const songsCount = useSelector((state) => state.player.playList).length;
+  const songsCount = useSelector((state) => state.player.playList.length);
 
   const { id } = useParams();
 

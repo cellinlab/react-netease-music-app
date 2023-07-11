@@ -23,6 +23,7 @@ const Player = () => {
   const [modeText, setModeText] = useState("");
   const audioRef = useRef();
   const toastRef = useRef();
+  const songReady = useRef(true);
 
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
 
@@ -41,16 +42,20 @@ const Player = () => {
       !playList.length ||
       currentIndex === -1 ||
       !playList[currentIndex] ||
-      playList[currentIndex].id === preSong.id
+      playList[currentIndex].id === preSong.id ||
+      !songReady.current
     ) {
       return;
     }
     let current = playList[currentIndex];
     dispatch(changeCurrentSong(current));
     setPreSong(current);
+    songReady.current = false;
     audioRef.current.src = getSongUrl(current.id);
     setTimeout(() => {
-      audioRef.current.play();
+      audioRef.current.play().then(() => {
+        songReady.current = true;
+      });
     });
     dispatch(changePlayingState(true));
     setCurrentTime(0);
@@ -141,6 +146,11 @@ const Player = () => {
     }
   };
 
+  const handleError = () => {
+    songReady.current = true;
+    alert("Play Error");
+  };
+
   return (
     <div>
       {isEmptyObject(currentSong) ? null : (
@@ -170,7 +180,12 @@ const Player = () => {
           changeMode={handleChangeMode}
         />
       )}
-      <audio ref={audioRef} onTimeUpdate={handleUpdateTime} onEnded={handleEnd}></audio>
+      <audio
+        ref={audioRef}
+        onTimeUpdate={handleUpdateTime}
+        onEnded={handleEnd}
+        onError={handleError}
+      ></audio>
       <Toast text={modeText} ref={toastRef} />
     </div>
   );
