@@ -1,8 +1,9 @@
-import { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { CSSTransition } from "react-transition-group";
 import animations from "create-keyframe-animation";
 
 import ProgressBar from "@/commponents/ProgressBar";
+import Scroll from "@/commponents/Scroll";
 import { getName, prefixStyle, formatPlayTime } from "@/utils";
 import { playMode } from "@/config";
 
@@ -19,9 +20,24 @@ const NormalPlayer = (props) => {
     changeMode,
     togglePlayList,
   } = props;
+  const { currentLyric, currentPlayingLyric, currentLineNum } = props;
 
   const normalPlayerRef = useRef();
   const cdWrapperRef = useRef();
+  const currentState = useRef("");
+  const lyricScrollRef = useRef();
+  const lyricLineRefs = useRef([]);
+
+  useEffect(() => {
+    if (!lyricScrollRef.current) return;
+    let bScroll = lyricScrollRef.current.getBScroll();
+    if (currentLineNum.current > 5) {
+      let lineEl = lyricLineRefs.current[currentLineNum.current - 5].current;
+      bScroll.scrollToElement(lineEl, 1000);
+    } else {
+      bScroll.scrollTo(0, 0, 1000);
+    }
+  }, [currentLineNum]);
 
   const enter = () => {
     normalPlayerRef.current.style.display = "block";
@@ -84,6 +100,8 @@ const NormalPlayer = (props) => {
     cdWrapperDom.style.transition = "";
     cdWrapperDom.style.transform = "";
     normalPlayerRef.current.style.display = "none";
+
+    currentState.current = "";
   };
 
   const getPlayMode = () => {
@@ -103,6 +121,13 @@ const NormalPlayer = (props) => {
     e.stopPropagation();
   };
 
+  const toggleCurrentState = () => {
+    if (currentState.current !== "lyric") {
+      currentState.current = "lyric";
+    } else {
+      currentState.current = "";
+    }
+  };
   return (
     <CSSTransition
       in={fullScreen}
@@ -126,16 +151,53 @@ const NormalPlayer = (props) => {
           <h1 className="title">{song.name}</h1>
           <h1 className="subtitle">{getName(song.ar)}</h1>
         </div>
-        <div className="middle">
-          <div className="cd-wrapper" ref={cdWrapperRef}>
-            <div className="cd">
-              <img
-                className={`image play ${playing ? "" : "pause"}`}
-                src={song.al.picUrl + "?param=400x400"}
-                alt="img"
-              />
+        <div className="middle" ref={cdWrapperRef} onClick={toggleCurrentState}>
+          <CSSTransition timeout={400} classNames="fade" in={currentState.current !== "lyric"}>
+            <div
+              className="cd-wrapper"
+              style={{
+                visibility: currentState.current !== "lyric" ? "visible" : "hidden",
+              }}
+            >
+              <div className="cd">
+                <img
+                  className={`image play ${playing ? "" : "pause"}`}
+                  src={song.al.picUrl + "?param=400x400"}
+                  alt="img"
+                />
+              </div>
+              <p className="playing_lyric">{currentPlayingLyric}</p>
             </div>
-          </div>
+          </CSSTransition>
+          <CSSTransition timeout={400} classNames="fade" in={currentState.current === "lyric"}>
+            <div className="lyric-container">
+              <Scroll ref={lyricScrollRef}>
+                <div
+                  className="lyric-wrapper"
+                  style={{
+                    visibility: currentState.current === "lyric" ? "visible" : "hidden",
+                  }}
+                >
+                  {currentLyric ? (
+                    currentLyric.lines.map((item, index) => {
+                      lyricLineRefs.current[index] = React.createRef();
+                      return (
+                        <p
+                          className={`text ${currentLineNum === index ? "current" : ""}`}
+                          key={item + index}
+                          ref={lyricLineRefs.current[index]}
+                        >
+                          {item.txt}
+                        </p>
+                      );
+                    })
+                  ) : (
+                    <p className="text pure">Instrumental music, please enjoy it.</p>
+                  )}
+                </div>
+              </Scroll>
+            </div>
+          </CSSTransition>
         </div>
         <div className="bottom">
           <div className="progress-wrapper">

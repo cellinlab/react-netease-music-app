@@ -7,6 +7,8 @@ import NormalPlayer from "./components/NormalPlayer";
 import PlayList from "./components/PlayList";
 import { getSongUrl, isEmptyObject, shuffle } from "@/utils";
 import { playMode } from "@/config";
+import { getLyricRequest } from "@/api/request";
+import Lyric from "@/lib/lyric";
 
 import {
   changeFullScreen,
@@ -26,6 +28,9 @@ const Player = () => {
   const audioRef = useRef();
   const toastRef = useRef();
   const songReady = useRef(true);
+  const currentLyric = useRef();
+  const currentLineNum = useRef(0);
+  const [playingLyric, setPlayingLyric] = useState("");
 
   let percent = isNaN(currentTime / duration) ? 0 : currentTime / duration;
 
@@ -60,6 +65,7 @@ const Player = () => {
       });
     });
     dispatch(changePlayingState(true));
+    getLyric(current.id);
     setCurrentTime(0);
     setDuration((current.dt / 1000) | 0);
   }, [playList, currentIndex]);
@@ -68,6 +74,35 @@ const Player = () => {
     playing ? audioRef.current.play() : audioRef.current.pause();
   }, [playing]);
 
+  const getLyric = (id) => {
+    let lyric = "";
+    if (currentLyric.current) {
+      currentLyric.current.stop();
+    }
+    getLyricRequest(id)
+      .then((data) => {
+        lyric = data.lrc.lyric;
+        if (!lyric) {
+          currentLyric.current = null;
+          return;
+        }
+        currentLyric.current = new Lyric(lyric, handleLyric);
+        currentLyric.current.play();
+        currentLineNum.current = 0;
+        currentLyric.current.seek(0);
+      })
+      .catch(() => {
+        songReady.current = true;
+        audioRef.current.play();
+      });
+  };
+
+  const handleLyric = ({ lineNum, txt }) => {
+    if (!currentLyric.current) return;
+    currentLineNum.current = lineNum;
+    setPlayingLyric(txt);
+  };
+
   const handleToggleFullScreen = (fullScreen) => {
     dispatch(changeFullScreen(fullScreen));
   };
@@ -75,6 +110,9 @@ const Player = () => {
   const handleClickPlaying = (e, state) => {
     e.stopPropagation();
     dispatch(changePlayingState(state));
+    if (currentLyric.current) {
+      currentLyric.current.togglePlay(currentTime * 1000);
+    }
   };
 
   const handleUpdateTime = (e) => {
@@ -87,6 +125,9 @@ const Player = () => {
     audioRef.current.currentTime = newTime;
     if (!playing) {
       dispatch(changePlayingState(true));
+    }
+    if (currentLyric.current) {
+      currentLyric.current.seek(newTime * 1000);
     }
   };
 
@@ -179,6 +220,9 @@ const Player = () => {
           currentTime={currentTime}
           percent={percent}
           mode={mode}
+          currentLyric={currentLyric.current}
+          currentPlayingLyric={playingLyric}
+          currentLineNum={currentLineNum.current}
           toggleFullScreen={handleToggleFullScreen}
           clickPlaying={handleClickPlaying}
           onProgressChange={handleProgressChange}
