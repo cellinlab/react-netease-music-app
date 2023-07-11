@@ -6,6 +6,8 @@ import { CSSTransition } from "react-transition-group";
 import Header from "@/commponents/Header";
 import Scroll from "@/commponents/Scroll";
 import Loading from "@/commponents/Loading";
+import SongList from "@/features/SongList";
+import MusicNote from "@/commponents/MusicNote";
 import { getCount, getName, isEmptyObject } from "@/utils";
 import { HEADER_HEIGHT } from "@/config";
 import { fetchAlbumDetail } from "./store/actionCreator";
@@ -16,13 +18,17 @@ const Album = () => {
   const [showStatus, setShowStatus] = useState(true);
   const [title, setTitle] = useState("Album");
   const [isMarquee, setIsMarquee] = useState(false);
+
   const headerEl = useRef();
+  const musicNoteRef = useRef();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const currentAlbum = useSelector((state) => state.album.currentAlbum);
   const enterLoading = useSelector((state) => state.album.enterLoading);
+  const songsCount = useSelector((state) => state.player.playList).length;
+
   const { id } = useParams();
 
   useEffect(() => {
@@ -60,6 +66,10 @@ const Album = () => {
     setShowStatus(false);
   }, []);
 
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+  };
+
   return (
     <CSSTransition
       in={showStatus}
@@ -69,7 +79,7 @@ const Album = () => {
       unmountOnExit
       onExited={handleExit}
     >
-      <div className="album-container">
+      <div className="album-container" style={{ bottom: songsCount ? "60px" : 0 }}>
         <Header title={title} ref={headerEl} isMarquee={isMarquee} handleClick={handleBack} />
         {!isEmptyObject(currentAlbum) ? (
           <Scroll bounceTop={false} onScroll={handleScroll}>
@@ -123,40 +133,18 @@ const Album = () => {
                   More
                 </div>
               </div>
-              <div className="song-list">
-                <div className="first-line">
-                  <div className="play-all">
-                    <i className="iconfont">&#xe6e3;</i>
-                    <span>
-                      Play All{" "}
-                      <span className="sum">(Total {currentAlbum.tracks.length} songs)</span>
-                    </span>
-                  </div>
-                  <div className="add-list">
-                    <i className="iconfont">&#xe62d;</i>
-                    <span>Collected ({getCount(currentAlbum.subscribedCount)})</span>
-                  </div>
-                </div>
-                <ul className="song-item">
-                  {currentAlbum.tracks.map((item, index) => {
-                    return (
-                      <li key={index}>
-                        <span className="index">{index + 1}</span>
-                        <div className="info">
-                          <span>{item.name}</span>
-                          <span>
-                            {getName(item.ar)} - {item.al.name}
-                          </span>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+              <SongList
+                songs={currentAlbum.tracks}
+                showCollect={true}
+                collectCount={currentAlbum.subscribedCount}
+                showBackground={true}
+                musicAnimation={musicAnimation}
+              />
             </div>
           </Scroll>
         ) : null}
         {enterLoading ? <Loading /> : null}
+        <MusicNote ref={musicNoteRef} />
       </div>
     </CSSTransition>
   );

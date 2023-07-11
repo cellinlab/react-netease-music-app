@@ -1,15 +1,27 @@
 import { forwardRef, memo } from "react";
+import { useDispatch } from "react-redux";
 
 import { getName } from "@/utils";
+import {
+  changePlayList,
+  changeCurrentIndex,
+  changeSequencePlayList,
+} from "@/features/Player/store/slice";
 
 import "./index.scss";
 
 const SongList = forwardRef((props, ref) => {
   const { collectCount, showCollect, songs } = props;
+  const { musicAnimation } = props;
   const totalCount = songs.length;
 
+  const dispatch = useDispatch();
+
   const selectItem = (e, index) => {
-    console.log(e, index);
+    dispatch(changePlayList(songs));
+    dispatch(changeSequencePlayList(songs));
+    dispatch(changeCurrentIndex(index));
+    musicAnimation(e.nativeEvent.clientX, e.nativeEvent.clientY);
   };
 
   return (

@@ -1,6 +1,8 @@
 import React from "react";
 import { Outlet, NavLink } from "react-router-dom";
 
+import Player from "@/features/Player";
+
 import "./index.scss";
 
 const Home = () => {
@@ -29,6 +31,7 @@ const Home = () => {
         </NavLink>
       </div>
       <Outlet />
+      <Player />
     </div>
   );
 };

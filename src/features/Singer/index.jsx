@@ -7,6 +7,7 @@ import Loading from "@/commponents/Loading";
 import Header from "@/commponents/Header";
 import Scroll from "@/commponents/Scroll";
 import SongList from "@/features/SongList";
+import MusicNote from "@/commponents/MusicNote";
 import { HEADER_HEIGHT } from "@/config";
 
 import { fetchSingerInfo } from "./store/actionCreator";
@@ -20,6 +21,7 @@ const Singer = () => {
   const songScrollRef = useRef();
   const headerRef = useRef();
   const layerRef = useRef();
+  const musicNoteRef = useRef();
 
   const initialHeight = useRef(0);
   const OFFSET = 5;
@@ -85,6 +87,10 @@ const Singer = () => {
     }
   }, []);
 
+  const musicAnimation = (x, y) => {
+    musicNoteRef.current.startAnimation({ x, y });
+  };
+
   return (
     <CSSTransition
       in={showStatus}
@@ -113,10 +119,11 @@ const Singer = () => {
         <div className="bg-layer" ref={layerRef}></div>
         <div className="songlist-wrapper" ref={songScrollWrapperRef}>
           <Scroll ref={songScrollRef} onScroll={handleScroll}>
-            <SongList songs={songsOfArtist} showCollect={false} />
+            <SongList songs={songsOfArtist} showCollect={false} musicAnimation={musicAnimation} />
           </Scroll>
         </div>
         {loading ? <Loading /> : null}
+        <MusicNote ref={musicNoteRef} />
       </div>
     </CSSTransition>
   );

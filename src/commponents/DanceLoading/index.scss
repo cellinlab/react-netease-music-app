@@ -1,22 +1,23 @@
 @import "@/styles/global.scss";
 
+@keyframes dacne {
+  0%,
+  40%,
+  100% {
+    transform: scaleY(0.4);
+    transform-origin: center 100%;
+  }
+  20% {
+    transform: scaleY(1);
+  }
+}
 .dance-loading {
   margin: auto;
   height: 10px;
   width: 100%;
   text-align: center;
   font-size: 10px;
-  @keyframes dacne {
-    0%,
-    40%,
-    100% {
-      transform: scaleY(0.4);
-      transform-origin: center 100%;
-    }
-    20% {
-      transform: scaleY(1);
-    }
-  }
+
   div {
     display: inline-block;
     width: 1px;
